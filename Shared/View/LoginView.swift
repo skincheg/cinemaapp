@@ -9,11 +9,11 @@ import SwiftUI
 
 struct LoginView: View {
     @EnvironmentObject var loginData : LoginViewModel
+    @EnvironmentObject var appData : AppViewModel
+    @EnvironmentObject var mainData : MainViewModel
     
     var body: some View {
         ZStack {
-            Color(#colorLiteral(red: 0.07116285712, green: 0.04213490337, blue: 0.02960851043, alpha: 1))
-                .ignoresSafeArea(.all)
             VStack{
                 Spacer()
                 VStack {
@@ -31,12 +31,12 @@ struct LoginView: View {
                 if !loginData.isLogin {
                     VStack {
                         ZStack(alignment: .leading) {
-                            if loginData.login.isEmpty {
+                            if loginData.name.isEmpty {
                                 Text("Имя")
                                     .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
                                     .padding()
                             }
-                            TextField("Имя", text: $loginData.login)
+                            TextField("Имя", text: $loginData.name)
                                 .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
                                 .padding()
                                 .overlay(
@@ -45,12 +45,12 @@ struct LoginView: View {
                                 )
                         }
                         ZStack(alignment: .leading) {
-                            if loginData.login.isEmpty {
+                            if loginData.surname.isEmpty {
                                 Text("Фамилия")
                                     .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
                                     .padding()
                             }
-                            TextField("Фамилия", text: $loginData.login)
+                            TextField("Фамилия", text: $loginData.surname)
                                 .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
                                 .padding()
                                 .overlay(
@@ -97,7 +97,7 @@ struct LoginView: View {
                 if !loginData.isLogin {
                     VStack {
                         ZStack(alignment: .leading) {
-                            if loginData.login.isEmpty {
+                            if loginData.repeatPassword.isEmpty {
                                 Text("Повторите пароль")
                                     .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
                                     .padding()
@@ -118,9 +118,26 @@ struct LoginView: View {
                     Button(action: {
                         withAnimation() {
                             if loginData.isLogin {
-                                print(loginData.login(login: "123", password: "123"))
+                                print(loginData.login(onExit: { (str) in
+                                    loginData.actionText = str
+                                    loginData.actionSheet.toggle()
+
+                                    appData.checkUser { (isLogged) in
+                                        if isLogged {
+                                            mainData.loadCover { (_) in
+                                                appData.isLogged = true
+                                            }
+                                        } else {
+                                            appData.isLogged = false
+                                        }
+                                    }
+                                }))
                             } else {
-                                print(loginData.register(login: "312", password: "312"))
+                                print(loginData.register(onExit: { (str) in
+                                    loginData.actionText = str
+                                    loginData.actionSheet.toggle()
+                                    loginData.isLoginScreen.toggle()
+                                }))
                             }
                         }
                     }, label: {
