@@ -65,42 +65,17 @@ struct MainView: View {
                                             .resizable()
                                             .cacheMemoryOnly()
                                             .frame(width: 100, height: 150)
-                                            .onTapGesture {
+                                            .onLongPressGesture(minimumDuration: 0.01) { (_) in
+                                                
+                                            } perform: {
                                                 withAnimation {
                                                     appData.currentMovie = movie
-                                                }
-                                            }
-                                            .contextMenu {
-                                                VStack {
-                                                    Button {
-                                                        withAnimation(.spring()) {
-                                                            mainData.trendMovies = mainData.trendMovies.filter() { $0 !== movie }
-                                                        }
-                                                    } label: {
-                                                        HStack {
-                                                            Text("Delete")
-                                                            
-                                                            Image(systemName: "star")
-                                                        }
-                                                    }
-                                                    
-                                                    Button {
-                                                        
-                                                    } label: {
-                                                        HStack {
-                                                            Text("Star")
-                                                            
-                                                            Image(systemName: "star")
-                                                        }
-                                                    }
-
                                                 }
                                             }
                                     }
                                 }
                             }
                             .padding(.leading, 20)
-                            .animation(.spring())
                         }
                         .onAppear {
                             mainData.getMovies(filter: .inTrend) { (result) in
@@ -127,7 +102,9 @@ struct MainView: View {
                                             .resizable()
                                             .cacheMemoryOnly()
                                             .frame(width: 250, height: 150)
-                                            .onTapGesture {
+                                            .onLongPressGesture(minimumDuration: 0.01) { (_) in
+                                                
+                                            } perform: {
                                                 withAnimation {
                                                     appData.currentMovie = movie
                                                 }
@@ -162,11 +139,19 @@ struct MainView: View {
                                             .resizable()
                                             .cacheMemoryOnly()
                                             .frame(width: 100, height: 150)
-                                            .onTapGesture {
+                                            .onLongPressGesture(minimumDuration: 0.01) { (_) in
+                                                
+                                            } perform: {
                                                 withAnimation {
                                                     appData.currentMovie = movie
                                                 }
                                             }
+
+//                                            .onTapGesture {
+//                                                withAnimation {
+//                                                    appData.currentMovie = movie
+//                                                }
+//                                            }
                                     }
                                 }
                             }

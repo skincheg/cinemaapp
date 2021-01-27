@@ -70,37 +70,10 @@ struct MainView: View {
                                                     appData.currentMovie = movie
                                                 }
                                             }
-                                            .contextMenu {
-                                                VStack {
-                                                    Button {
-                                                        withAnimation(.spring()) {
-                                                            mainData.trendMovies = mainData.trendMovies.filter() { $0 !== movie }
-                                                        }
-                                                    } label: {
-                                                        HStack {
-                                                            Text("Delete")
-                                                            
-                                                            Image(systemName: "star")
-                                                        }
-                                                    }
-                                                    
-                                                    Button {
-                                                        
-                                                    } label: {
-                                                        HStack {
-                                                            Text("Star")
-                                                            
-                                                            Image(systemName: "star")
-                                                        }
-                                                    }
-
-                                                }
-                                            }
                                     }
                                 }
                             }
                             .padding(.leading, 20)
-                            .animation(.spring())
                         }
                         .onAppear {
                             mainData.getMovies(filter: .inTrend) { (result) in
